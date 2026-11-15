@@ -354,149 +354,55 @@ canvas.plinko{width:100%;max-width:640px;height:auto;display:block;margin:0 auto
 .nback-box{width:140px;height:140px;margin:14px auto;border-radius:20px;background:#0a1f14;border:3px solid var(--gold);display:grid;place-items:center;font-size:64px;font-weight:900;box-shadow:0 8px 25px #000a}
 
 
-/* VALÓDI TAKTIKAI PÁLYA (KEZDŐ 11 / LINEUP BUILDER) & KLUB ÁTIGAZOLÁSI PIAC */
-.pitch-box{
-  background:
-    repeating-linear-gradient(180deg, #16653b 0px, #16653b 48px, #125431 48px, #125431 96px);
+/* KOORDINÁTÁS TAKTIKAI PÁLYA + OLDALSÓ CSEREPAD */
+.pitch-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;align-items:start}
+@media(max-width:960px){.pitch-layout{grid-template-columns:1fr}}
+.pitch-field{
+  position:relative;
+  height:580px;
+  background:repeating-linear-gradient(180deg, #16653b 0px, #16653b 58px, #125431 58px, #125431 116px);
   border:4px solid #ffffffcc;
   border-radius:18px;
-  padding:18px 14px 22px;
-  position:relative;
-  margin-bottom:16px;
-  box-shadow:inset 0 0 60px #000b, 0 12px 30px #0009;
+  box-shadow:inset 0 0 60px #000b, 0 10px 28px #0009;
   overflow:hidden;
+  user-select:none;
 }
-/* Pályavonalak: felezővonal, kezdőkör, felső és alsó 16-os büntetőterület */
-.pitch-box::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;top:50%;
-  height:2px;
-  background:#ffffff55;
-  pointer-events:none;
-}
-.pitch-box::after{
-  content:"";
-  position:absolute;
-  left:50%;top:50%;
-  width:110px;height:110px;
-  transform:translate(-50%,-50%);
-  border:2px solid #ffffff55;
-  border-radius:50%;
-  pointer-events:none;
-}
-.pitch-penalty-top,.pitch-penalty-bot{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(340px, 60%);
-  height:68px;
-  border:2px solid #ffffff55;
-  pointer-events:none;
-}
+.pitch-field::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:#ffffff55;pointer-events:none}
+.pitch-field::after{content:"";position:absolute;left:50%;top:50%;width:110px;height:110px;transform:translate(-50%,-50%);border:2px solid #ffffff55;border-radius:50%;pointer-events:none}
+.pitch-penalty-top,.pitch-penalty-bot{position:absolute;left:50%;transform:translateX(-50%);width:54%;height:68px;border:2px solid #ffffff55;pointer-events:none}
 .pitch-penalty-top{top:-2px;border-radius:0 0 10px 10px}
 .pitch-penalty-bot{bottom:-2px;border-radius:10px 10px 0 0}
-.pitch-header-bar{
-  position:relative;
-  z-index:2;
-  background:#05140cdd;
-  border:1px solid var(--gold);
-  border-radius:10px;
-  padding:8px 14px;
-  margin-bottom:18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-}
-.pitch-rows-wrap{
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  gap:24px;
-  min-height:520px;
-  justify-content:space-between;
-  padding:6px 0;
-}
-.pitch-tactical-row{
-  display:flex;
-  justify-content: space-evenly;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  width:100%;
-}
-.pitch-zone-lbl{
-  text-align:center;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  color:#ffffff99;
-  text-transform:uppercase;
-  margin-bottom:-16px;
-  text-shadow:0 1px 4px #000;
-}
-.lineup-slot{
-  width:clamp(145px, 18vw, 195px);
-  background:linear-gradient(165deg,#092214f2,#05120bf5);
+
+.pitch-node{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  width:106px;
+  background:rgba(6,22,13,0.93);
   border:2px solid var(--gold);
-  border-radius:14px;
-  padding:8px 9px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:5px;
-  box-shadow:0 8px 20px #000b;
-  transition:transform .15s, border-color .15s;
+  border-radius:11px;
+  padding:5px 6px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .15s, box-shadow .15s, border-color .15s;
+  z-index:3;
+  box-shadow:0 5px 14px #000b;
 }
-.lineup-slot:hover{
-  transform:translateY(-3px);
-  border-color:#fff;
-}
-.lineup-slot.out-of-pos{
-  border-color:#f87171;
-  background:linear-gradient(165deg,#331010f2,#1a0707f5);
-}
-.lineup-jersey{
-  width:38px;height:38px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, var(--gold2), #b8821e);
-  color:#1b1205;
-  font-weight:900;
-  font-size:13px;
-  display:grid;
-  place-items:center;
-  border:2px solid #fff;
-  box-shadow:0 3px 8px #0009;
-  margin-top:-18px;
-}
-.lineup-slot.out-of-pos .lineup-jersey{
-  background:radial-gradient(circle at 30% 30%, #fca5a5, #b91c1c);
-  color:#fff;
-}
-.lineup-slot .slot-head{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:11.5px;
-  font-weight:800;
-  color:var(--gold2);
-}
-.lineup-slot select{
-  width:100%;
-  font-size:12px;
-  padding:4px 5px;
-  background:#040d08;
-  border:1px solid var(--line);
-  border-radius:6px;
-  font-weight:700;
-}
+.pitch-node:hover{transform:translate(-50%,-50%) scale(1.07);border-color:#fff;z-index:6}
+.pitch-node.selected{border-color:var(--cyan);box-shadow:0 0 0 3px #38bdf888, 0 8px 20px #000;transform:translate(-50%,-50%) scale(1.09);z-index:7}
+.pitch-node.out-pos{border-color:#f87171;background:rgba(48,12,12,0.95)}
+.pitch-node.sec-pos{border-color:#fbbf24}
+.pitch-node .pn-top{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:900;color:var(--gold2)}
+.pitch-node .pn-name{font-size:11px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0}
+.pitch-node .pn-stam{height:4px;background:#1e293b;border-radius:99px;overflow:hidden;margin-top:2px}
+.pitch-node .pn-stam > i{display:block;height:100%;background:var(--green)}
+
+.bench-panel{background:#07170f;border:1px solid var(--line);border-radius:14px;padding:12px;height:580px;overflow-y:auto}
+.bench-card{background:#0c2418;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:6px;transition:.15s}
+.bench-card:hover{border-color:var(--gold)}
+.bench-card.selected{border-color:var(--cyan);background:#103442}
+.bench-card.unavail{opacity:.45;cursor:not-allowed;border-color:#7f1d1d}
 .attr-pills{display:flex;justify-content:center;gap:4px;font-size:10.5px;color:var(--muted);flex-wrap:wrap}
 .attr-pills span{background:#040c08;border:1px solid #1f4a33;padding:1px 5px;border-radius:4px}
-
 </style>
 </head>
 <body>
@@ -1020,43 +926,71 @@ $('#main').innerHTML=`
       <button data-sub="skills">🧠 Menedzseri Képességfa</button>
     </div>
 
-    <!-- Subtab Lineup: Felállás (3-5-2, 4-4-2, 4-3-3, 4-5-1, 5-3-2, 3-4-3) & Kezdőcsapat összeállítása -->
+    <!-- Subtab Lineup: Koordinátás Taktikai Pálya + Oldalsó Cserepad -->
     <div id="mgrSubLineup" class="panel-box" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
         <div>
-          <h3 style="margin:0;color:var(--gold2)">📐 Taktikai Felállás & Kezdőcsapat Összeállítása</h3>
-          <p style="margin:4px 0 0;font-size:13px;color:var(--muted)">Állítsd be a formációt és válaszd ki, ki melyik poszton kezdjen! A defenzív felállások csökkentik a kapott gólok esélyét és növelik a döntetlen (X) valószínűségét, a támadók növelik a rúgott gólokat!</p>
+          <h3 style="margin:0;color:var(--gold2)">📐 Koordinátás Taktikai Pálya, Mentalitás & Cserepad</h3>
+          <p style="margin:3px 0 0;font-size:13px;color:var(--muted)">Kattints egy játékosra a pályán, majd kattints a jobb oldali cserepadon lévő játékosra (vagy másik kezdőre) a cseréhez!</p>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <label class="label" style="margin:0">Felállás:</label>
-          <select id="mgrFormSel" style="font-weight:800;color:var(--gold2)"></select>
-          <button class="primary" onclick="autoPickLineup()">🪄 Legjobb Kezdő Automatikus Kitöltése</button>
+          <select id="mgrFormSel" style="font-weight:800;color:var(--gold2)" title="Felállás"></select>
+          <select id="mgrMentalitySel" style="font-weight:800;color:var(--cyan)" title="Csapatmentalitás">
+            <option value="park">🚌 Bunkervédekezés (−30% kapott gól, +16% X)</option>
+            <option value="def">🛡️ Óvatos / Védekező (−15% kapott gól, +8% X)</option>
+            <option value="bal" selected>⚖️ Kiegyensúlyozott Mentalitás</option>
+            <option value="att">⚔️ Támadó Szellem (+18% rúgott gól, −10% X)</option>
+            <option value="allout">🔥 Totális Letámadás (+32% rúgott gól, −22% védelem)</option>
+          </select>
+          <button class="primary" onclick="autoPickLineup()">🪄 Legjobb Friss Kezdő</button>
+          <button onclick="restSquadTraining()" title="Csökkenti a fáradtságot a keretben">💤 Pihenőnap (400 €)</button>
         </div>
       </div>
       <div id="mgrFormEffectNote" class="note" style="margin-bottom:12px"></div>
-      <div class="pitch-box">
-        <div class="pitch-penalty-top"></div>
-        <div class="pitch-penalty-bot"></div>
-        <div class="pitch-header-bar">
-          <b style="color:var(--gold2)">🏟️ TAKTIKAI PÁLYA – KEZDŐCSAPAT (Fent: Támadósor · Középen: Középpálya · Lent: Védelem & Kapus)</b>
-          <span id="mgrLineupStatsSummary" style="font-size:13px;font-weight:700;color:var(--cyan)"></span>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;background:#06130c;padding:8px 12px;border-radius:10px;border:1px solid var(--line)">
+        <span id="mgrLineupStatsSummary" style="font-size:13px;font-weight:700;color:var(--cyan)"></span>
+        <span id="mgrSwapStatusHint" style="font-size:12.5px;font-weight:800;color:var(--gold2)">👆 Kattints bármelyik játékosra a cseréhez!</span>
+      </div>
+
+      <div class="pitch-layout">
+        <div class="pitch-field" id="mgrPitchCanvas">
+          <div class="pitch-penalty-top"></div>
+          <div class="pitch-penalty-bot"></div>
+          <div id="mgrLineupGrid"></div>
         </div>
-        <div class="pitch-rows-wrap" id="mgrLineupGrid"></div>
+        <div class="bench-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:6px">
+            <b style="color:var(--gold2)">🪑 CSEREPAD & TARTALÉKOK</b>
+            <span style="font-size:11.5px;color:var(--muted)">Kattints a cseréhez</span>
+          </div>
+          <div id="mgrBenchList"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Subtab Signing: Non-stop Klub Átigazolási Piac (Vétel) -->
+    <!-- Subtab Signing: Átigazolási Piac Kor & Max Ár szűrővel -->
     <div id="mgrSubSigning" class="panel-box" style="display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
         <div>
-          <h3 style="margin:0;color:var(--gold2)">🛒 Átigazolási Piac – Igazolható Játékosok & Fiatal Tehetségek</h3>
-          <p style="margin:4px 0 0;font-size:13px;color:var(--muted)">Vásárolj bármelyik posztra játékost (GK, RB, CB, LB, CDM, RM, CM, LM, RW, ST, LW)! A kínálat az osztályod erősségéhez igazodik.</p>
+          <h3 style="margin:0;color:var(--gold2)">🛒 Átigazolási Piac – Igazolható Játékosok & U21 Tehetségek</h3>
+          <p style="margin:4px 0 0;font-size:13px;color:var(--muted)">Szűrj posztra, életkorra vagy maximum árra! Figyelj a játékosok <b>meccsenkénti fizetésére (Bér)</b> is!</p>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <select id="mgrMktPosFilter" onchange="renderScoutMarket()">
-            <option value="ALL">Összes poszt</option>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <select id="mgrMktPosFilter" onchange="renderScoutMarket()"><option value="ALL">Összes poszt</option></select>
+          <select id="mgrMktAgeFilter" onchange="renderScoutMarket()">
+            <option value="ALL">Minden korosztály</option>
+            <option value="U20">🌱 Csak 20 év alattiak (U20)</option>
+            <option value="U23">⚡ Fiatalok (23 év alatt)</option>
+            <option value="VET">🏛️ Rutinosak (24+ év)</option>
           </select>
-          <button class="primary" onclick="refreshScoutMarket(true)">🔄 Új Játékosok Keresése (500 €)</button>
+          <select id="mgrMktPriceFilter" onchange="renderScoutMarket()">
+            <option value="ALL">Max. ár: Bármennyi</option>
+            <option value="2000">Max. 2.000 €</option>
+            <option value="5000">Max. 5.000 €</option>
+            <option value="15000">Max. 15.000 €</option>
+            <option value="50000">Max. 50.000 €</option>
+          </select>
+          <button class="primary" onclick="refreshScoutMarket(true)">🔄 Új Játékosok (500 €)</button>
         </div>
       </div>
       <div class="match-grid" id="mgrScoutMarketGrid"></div>
