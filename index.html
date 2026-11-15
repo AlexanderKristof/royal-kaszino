@@ -354,15 +354,148 @@ canvas.plinko{width:100%;max-width:640px;height:auto;display:block;margin:0 auto
 .nback-box{width:140px;height:140px;margin:14px auto;border-radius:20px;background:#0a1f14;border:3px solid var(--gold);display:grid;place-items:center;font-size:64px;font-weight:900;box-shadow:0 8px 25px #000a}
 
 
-/* FELÁLLÁS (KEZDŐ 11 / LINEUP BUILDER) & KLUB ÁTIGAZOLÁSI PIAC */
-.pitch-box{background:radial-gradient(ellipse at center,#145a35,#0a351e);border:3px solid #e8b84a88;border-radius:16px;padding:16px;position:relative;margin-bottom:14px;box-shadow:inset 0 0 40px #000a}
-.pitch-SlotGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:10px}
-.lineup-slot{background:#07180fdd;border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:4px}
-.lineup-slot.out-of-pos{border-color:#f87171;background:#2a0e0edd}
-.lineup-slot .slot-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;color:var(--gold2)}
-.lineup-slot select{width:100%;font-size:12.5px;padding:5px 6px}
-.attr-pills{display:inline-flex;gap:4px;font-size:11px;color:var(--muted)}
-.attr-pills span{background:#050f0a;border:1px solid #1f4a33;padding:1px 5px;border-radius:4px}
+/* VALÓDI TAKTIKAI PÁLYA (KEZDŐ 11 / LINEUP BUILDER) & KLUB ÁTIGAZOLÁSI PIAC */
+.pitch-box{
+  background:
+    repeating-linear-gradient(180deg, #16653b 0px, #16653b 48px, #125431 48px, #125431 96px);
+  border:4px solid #ffffffcc;
+  border-radius:18px;
+  padding:18px 14px 22px;
+  position:relative;
+  margin-bottom:16px;
+  box-shadow:inset 0 0 60px #000b, 0 12px 30px #0009;
+  overflow:hidden;
+}
+/* Pályavonalak: felezővonal, kezdőkör, felső és alsó 16-os büntetőterület */
+.pitch-box::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:50%;
+  height:2px;
+  background:#ffffff55;
+  pointer-events:none;
+}
+.pitch-box::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:110px;height:110px;
+  transform:translate(-50%,-50%);
+  border:2px solid #ffffff55;
+  border-radius:50%;
+  pointer-events:none;
+}
+.pitch-penalty-top,.pitch-penalty-bot{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(340px, 60%);
+  height:68px;
+  border:2px solid #ffffff55;
+  pointer-events:none;
+}
+.pitch-penalty-top{top:-2px;border-radius:0 0 10px 10px}
+.pitch-penalty-bot{bottom:-2px;border-radius:10px 10px 0 0}
+.pitch-header-bar{
+  position:relative;
+  z-index:2;
+  background:#05140cdd;
+  border:1px solid var(--gold);
+  border-radius:10px;
+  padding:8px 14px;
+  margin-bottom:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.pitch-rows-wrap{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  min-height:520px;
+  justify-content:space-between;
+  padding:6px 0;
+}
+.pitch-tactical-row{
+  display:flex;
+  justify-content: space-evenly;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  width:100%;
+}
+.pitch-zone-lbl{
+  text-align:center;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:#ffffff99;
+  text-transform:uppercase;
+  margin-bottom:-16px;
+  text-shadow:0 1px 4px #000;
+}
+.lineup-slot{
+  width:clamp(145px, 18vw, 195px);
+  background:linear-gradient(165deg,#092214f2,#05120bf5);
+  border:2px solid var(--gold);
+  border-radius:14px;
+  padding:8px 9px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  box-shadow:0 8px 20px #000b;
+  transition:transform .15s, border-color .15s;
+}
+.lineup-slot:hover{
+  transform:translateY(-3px);
+  border-color:#fff;
+}
+.lineup-slot.out-of-pos{
+  border-color:#f87171;
+  background:linear-gradient(165deg,#331010f2,#1a0707f5);
+}
+.lineup-jersey{
+  width:38px;height:38px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--gold2), #b8821e);
+  color:#1b1205;
+  font-weight:900;
+  font-size:13px;
+  display:grid;
+  place-items:center;
+  border:2px solid #fff;
+  box-shadow:0 3px 8px #0009;
+  margin-top:-18px;
+}
+.lineup-slot.out-of-pos .lineup-jersey{
+  background:radial-gradient(circle at 30% 30%, #fca5a5, #b91c1c);
+  color:#fff;
+}
+.lineup-slot .slot-head{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11.5px;
+  font-weight:800;
+  color:var(--gold2);
+}
+.lineup-slot select{
+  width:100%;
+  font-size:12px;
+  padding:4px 5px;
+  background:#040d08;
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-weight:700;
+}
+.attr-pills{display:flex;justify-content:center;gap:4px;font-size:10.5px;color:var(--muted);flex-wrap:wrap}
+.attr-pills span{background:#040c08;border:1px solid #1f4a33;padding:1px 5px;border-radius:4px}
 
 </style>
 </head>
@@ -902,11 +1035,13 @@ $('#main').innerHTML=`
       </div>
       <div id="mgrFormEffectNote" class="note" style="margin-bottom:12px"></div>
       <div class="pitch-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <b style="color:var(--gold2)">🏟️ KEZDŐCSAPAT POSZTOK (Kattints a listákra a játékosok cseréjéhez)</b>
+        <div class="pitch-penalty-top"></div>
+        <div class="pitch-penalty-bot"></div>
+        <div class="pitch-header-bar">
+          <b style="color:var(--gold2)">🏟️ TAKTIKAI PÁLYA – KEZDŐCSAPAT (Fent: Támadósor · Középen: Középpálya · Lent: Védelem & Kapus)</b>
           <span id="mgrLineupStatsSummary" style="font-size:13px;font-weight:700;color:var(--cyan)"></span>
         </div>
-        <div class="pitch-SlotGrid" id="mgrLineupGrid"></div>
+        <div class="pitch-rows-wrap" id="mgrLineupGrid"></div>
       </div>
     </div>
 
@@ -5199,58 +5334,58 @@ window.importSaveCode=function(){
 };
 
 
-/* ================= MÉLY KLUBMENEDZSER: 24-ES KERET, POSZTOK, FELÁLLÁSOK & ÁTIGAZOLÁSI PIAC ================= */
+/* ================= MÉLY KLUBMENEDZSER PRO: KOORDINÁTÁS PÁLYA (1.A), MÁSODLAGOS POSZT (2.B), MENTALITÁS (3.B), 6 STAT + STAMINA + LAPOK (4.B/C), FIZETÉSEK & SZŰRŐK (5.B/C) ================= */
 const MAX_SQUAD_LIMIT = 28;
 
-// Részletes posztok sportáganként (Foci: 11 részletes poszt, mindenből 2+ a 24-es keretben!)
+// Részletes posztok + másodlagos posztok (2.B)
 const DETAILED_POS = {
   football: [
-    {code:'GK', name:'Kapus (GK)', grp:'GK', icon:'🧤'},
-    {code:'RB', name:'Jobb hátvéd (RB)', grp:'DEF', icon:'🛡️'},
-    {code:'CB', name:'Középhátvéd (CB)', grp:'DEF', icon:'🛡️'},
-    {code:'LB', name:'Bal hátvéd (LB)', grp:'DEF', icon:'🛡️'},
-    {code:'CDM', name:'Védekező KP (CDM)', grp:'MID', icon:'⚓'},
-    {code:'RM', name:'Jobb KP (RM)', grp:'MID', icon:'🎯'},
-    {code:'CM', name:'Középpályás (CM)', grp:'MID', icon:'🎯'},
-    {code:'LM', name:'Bal KP (LM)', grp:'MID', icon:'🎯'},
-    {code:'RW', name:'Jobb szélső (RW)', grp:'FWD', icon:'⚡'},
-    {code:'LW', name:'Bal szélső (LW)', grp:'FWD', icon:'⚡'},
-    {code:'ST', name:'Középcsatár (ST)', grp:'FWD', icon:'🥅'}
+    {code:'GK', name:'Kapus (GK)', grp:'GK', icon:'🧤', sec:['GK']},
+    {code:'RB', name:'Jobb hátvéd (RB)', grp:'DEF', icon:'🛡️', sec:['CB','RM']},
+    {code:'CB', name:'Középhátvéd (CB)', grp:'DEF', icon:'🛡️', sec:['RB','LB','CDM']},
+    {code:'LB', name:'Bal hátvéd (LB)', grp:'DEF', icon:'🛡️', sec:['CB','LM']},
+    {code:'CDM', name:'Védekező KP (CDM)', grp:'MID', icon:'⚓', sec:['CM','CB']},
+    {code:'RM', name:'Jobb KP (RM)', grp:'MID', icon:'🎯', sec:['RW','RB','CM']},
+    {code:'CM', name:'Középpályás (CM)', grp:'MID', icon:'🎯', sec:['CDM','RM','LM']},
+    {code:'LM', name:'Bal KP (LM)', grp:'MID', icon:'🎯', sec:['LW','LB','CM']},
+    {code:'RW', name:'Jobb szélső (RW)', grp:'FWD', icon:'⚡', sec:['RM','ST','LW']},
+    {code:'LW', name:'Bal szélső (LW)', grp:'FWD', icon:'⚡', sec:['LM','ST','RW']},
+    {code:'ST', name:'Középcsatár (ST)', grp:'FWD', icon:'🥅', sec:['RW','LW']}
   ],
   basketball: [
-    {code:'PG', name:'Irányító (PG)', grp:'MID', icon:'🏀'},
-    {code:'SG', name:'Dobóhátvéd (SG)', grp:'FWD', icon:'🎯'},
-    {code:'SF', name:'Kiscsatár (SF)', grp:'FWD', icon:'⚡'},
-    {code:'PF', name:'Erőcsatár (PF)', grp:'DEF', icon:'💪'},
-    {code:'C',  name:'Center (C)', grp:'GK', icon:'🗼'}
+    {code:'PG', name:'Irányító (PG)', grp:'MID', icon:'🏀', sec:['SG']},
+    {code:'SG', name:'Dobóhátvéd (SG)', grp:'FWD', icon:'🎯', sec:['PG','SF']},
+    {code:'SF', name:'Kiscsatár (SF)', grp:'FWD', icon:'⚡', sec:['SG','PF']},
+    {code:'PF', name:'Erőcsatár (PF)', grp:'DEF', icon:'💪', sec:['SF','C']},
+    {code:'C',  name:'Center (C)', grp:'GK', icon:'🗼', sec:['PF']}
   ],
   nfl: [
-    {code:'QB', name:'Irányító (QB)', grp:'MID', icon:'🏈'},
-    {code:'RB', name:'Futó (RB)', grp:'FWD', icon:'⚡'},
-    {code:'WR', name:'Elkapó (WR)', grp:'FWD', icon:'🎯'},
-    {code:'TE', name:'Tight End (TE)', grp:'MID', icon:'💪'},
-    {code:'OL', name:'Támadófal (OL)', grp:'DEF', icon:'🛡️'},
-    {code:'DL', name:'Védőfal (DL)', grp:'DEF', icon:'🧱'},
-    {code:'LB', name:'Linebacker (LB)', grp:'DEF', icon:'⚔️'},
-    {code:'DB', name:'Defensive Back (DB)', grp:'GK', icon:'🦅'}
+    {code:'QB', name:'Irányító (QB)', grp:'MID', icon:'🏈', sec:['TE']},
+    {code:'RB', name:'Futó (RB)', grp:'FWD', icon:'⚡', sec:['WR']},
+    {code:'WR', name:'Elkapó (WR)', grp:'FWD', icon:'🎯', sec:['RB','TE']},
+    {code:'TE', name:'Tight End (TE)', grp:'MID', icon:'💪', sec:['WR','OL']},
+    {code:'OL', name:'Támadófal (OL)', grp:'DEF', icon:'🛡️', sec:['DL']},
+    {code:'DL', name:'Védőfal (DL)', grp:'DEF', icon:'🧱', sec:['OL','LB']},
+    {code:'LB', name:'Linebacker (LB)', grp:'DEF', icon:'⚔️', sec:['DL','DB']},
+    {code:'DB', name:'Defensive Back (DB)', grp:'GK', icon:'🦅', sec:['LB']}
   ],
   baseball: [
-    {code:'SP', name:'Kezdő Dobó (SP)', grp:'GK', icon:'⚾'},
-    {code:'RP', name:'Csere Dobó (RP)', grp:'GK', icon:'🔥'},
-    {code:'C',  name:'Elkapó (C)', grp:'DEF', icon:'🧤'},
-    {code:'1B', name:'Első Bázis (1B)', grp:'DEF', icon:'🛡️'},
-    {code:'SS', name:'Shortstop (SS)', grp:'MID', icon:'⚡'},
-    {code:'OF', name:'Külső Védő (OF)', grp:'FWD', icon:'🏃'},
-    {code:'DH', name:'Kijelölt Ütő (DH)', grp:'FWD', icon:'🏏'}
+    {code:'SP', name:'Kezdő Dobó (SP)', grp:'GK', icon:'⚾', sec:['RP']},
+    {code:'RP', name:'Csere Dobó (RP)', grp:'GK', icon:'🔥', sec:['SP']},
+    {code:'C',  name:'Elkapó (C)', grp:'DEF', icon:'🧤', sec:['1B']},
+    {code:'1B', name:'Első Bázis (1B)', grp:'DEF', icon:'🛡️', sec:['DH','C']},
+    {code:'SS', name:'Shortstop (SS)', grp:'MID', icon:'⚡', sec:['OF']},
+    {code:'OF', name:'Külső Védő (OF)', grp:'FWD', icon:'🏃', sec:['SS','DH']},
+    {code:'DH', name:'Kijelölt Ütő (DH)', grp:'FWD', icon:'🏏', sec:['1B','OF']}
   ],
   rugby: [
-    {code:'PR', name:'Pillér (Prop)', grp:'DEF', icon:'🧱'},
-    {code:'LK', name:'Második sor (Lock)', grp:'DEF', icon:'💪'},
-    {code:'FL', name:'Leváló (Flanker)', grp:'DEF', icon:'⚔️'},
-    {code:'SH', name:'Nyitó (Scrum-half)', grp:'MID', icon:'🎯'},
-    {code:'FH', name:'Irányító (Fly-half)', grp:'MID', icon:'🧠'},
-    {code:'WG', name:'Szélső (Wing)', grp:'FWD', icon:'⚡'},
-    {code:'FB', name:'Fogó (Fullback)', grp:'GK', icon:'🛡️'}
+    {code:'PR', name:'Pillér (Prop)', grp:'DEF', icon:'🧱', sec:['LK']},
+    {code:'LK', name:'Második sor (Lock)', grp:'DEF', icon:'💪', sec:['PR','FL']},
+    {code:'FL', name:'Leváló (Flanker)', grp:'DEF', icon:'⚔️', sec:['LK','SH']},
+    {code:'SH', name:'Nyitó (Scrum-half)', grp:'MID', icon:'🎯', sec:['FH']},
+    {code:'FH', name:'Irányító (Fly-half)', grp:'MID', icon:'🧠', sec:['SH','WG']},
+    {code:'WG', name:'Szélső (Wing)', grp:'FWD', icon:'⚡', sec:['FB','FH']},
+    {code:'FB', name:'Fogó (Fullback)', grp:'GK', icon:'🛡️', sec:['WG']}
   ]
 };
 
@@ -5266,108 +5401,119 @@ function getPosMeta(spKey, posCode){
   return list.find(x=>x.code===posCode) || list[0];
 }
 
-// 24 fős sablon focira (minden posztból legalább 2 db: 2 GK, 2 RB, 4 CB, 2 LB, 2 CDM, 2 RM, 3 CM, 2 LM, 1 RW, 1 LW, 3 ST = 24 fő)
 const SQUAD_24_TEMPLATE_FOOTBALL = [
-  'GK','GK',
-  'RB','RB',
-  'CB','CB','CB','CB',
-  'LB','LB',
-  'CDM','CDM',
-  'RM','RM',
-  'CM','CM','CM',
-  'LM','LM',
-  'RW','LW',
-  'ST','ST','ST'
+  'GK','GK','RB','RB','CB','CB','CB','CB','LB','LB',
+  'CDM','CDM','RM','RM','CM','CM','CM','LM','LM','RW','LW','ST','ST','ST'
 ];
 
-// Felállások (Formációk) és matematikai hatásuk a gólokra / döntetlen (X) esélyre!
+// Felállások pontos X% (bal->jobb) és Y% (fent támadás -> lent kapu) koordinátákkal!
 const FORMATIONS = {
   football: {
     '4-4-2': {
       name:'4–4–2 Klasszikus (Kiegyensúlyozott)',
       style:'Kiegyensúlyozott', atkMod:1.00, defMod:1.00, drawBoost:0.02,
-      desc:'Klasszikus egyensúly a védekezés és támadás között. Normál gólesély, stabil hátsó alakzat.',
-      slots:['GK','RB','CB','CB','LB','RM','CM','CM','LM','ST','ST']
+      desc:'Klasszikus egyensúly a védekezés és támadás között.',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'LB',x:16,y:71},{pos:'CB',x:38,y:74},{pos:'CB',x:62,y:74},{pos:'RB',x:84,y:71},
+        {pos:'LM',x:16,y:45},{pos:'CM',x:38,y:48},{pos:'CM',x:62,y:48},{pos:'RM',x:84,y:45},
+        {pos:'ST',x:36,y:18},{pos:'ST',x:64,y:18}
+      ]
     },
     '4-3-3': {
       name:'4–3–3 Offenzív Szélsőjáték (Támadó)',
-      style:'Támadó (+20% Gól, −10% Védelem)', atkMod:1.20, defMod:0.90, drawBoost:-0.04,
-      desc:'Három támadóval (RW, ST, LW) rohamoz. Sokkal több rúgott gól, de hátul nyitottabb, ritkább a döntetlen (X).',
-      slots:['GK','RB','CB','CB','LB','CDM','CM','CM','RW','ST','LW']
+      style:'Támadó (+18% Gól)', atkMod:1.18, defMod:0.92, drawBoost:-0.04,
+      desc:'Három támadóval (LW, ST, RW) rohamoz. Sok gól, kevesebb döntetlen (X).',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'LB',x:16,y:71},{pos:'CB',x:38,y:74},{pos:'CB',x:62,y:74},{pos:'RB',x:84,y:71},
+        {pos:'CM',x:28,y:46},{pos:'CDM',x:50,y:54},{pos:'CM',x:72,y:46},
+        {pos:'LW',x:18,y:21},{pos:'ST',x:50,y:15},{pos:'RW',x:82,y:21}
+      ]
     },
     '3-5-2': {
       name:'3–5–2 Középpályás Dominancia (Kontroll)',
-      style:'Középpályás Kontroll (+10% Támadás, +5% X)', atkMod:1.10, defMod:0.98, drawBoost:0.05,
-      desc:'Öt középpályás uralja a mezőnyt, két csatárral elöl. Erős labdatartás és magasabb döntetlen/győzelmi kontroll.',
-      slots:['GK','CB','CB','CB','RM','CDM','CM','CM','LM','ST','ST']
+      style:'Kontroll (+10% Támadás, +5% X)', atkMod:1.10, defMod:0.98, drawBoost:0.05,
+      desc:'Öt középpályás uralja a mezőnyt, két csatárral elöl.',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'CB',x:26,y:74},{pos:'CB',x:50,y:76},{pos:'CB',x:74,y:74},
+        {pos:'LM',x:14,y:46},{pos:'CM',x:34,y:44},{pos:'CDM',x:50,y:55},{pos:'CM',x:66,y:44},{pos:'RM',x:86,y:46},
+        {pos:'ST',x:36,y:18},{pos:'ST',x:64,y:18}
+      ]
     },
     '3-4-3': {
       name:'3–4–3 Totális Letámadás (Ultra-Offenzív)',
-      style:'Ultra-Támadó (+32% Gól, −20% Védelem)', atkMod:1.32, defMod:0.80, drawBoost:-0.08,
-      desc:'Maximális góltermelés! Mindkét oldalon záporoznak a helyzetek, döntetlen szinte sosincs.',
-      slots:['GK','CB','CB','CB','RM','CM','CM','LM','RW','ST','LW']
+      style:'Ultra-Támadó (+30% Gól, −18% Védelem)', atkMod:1.30, defMod:0.82, drawBoost:-0.08,
+      desc:'Maximális góltermelés! Mindkét oldalon záporoznak a helyzetek.',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'CB',x:26,y:74},{pos:'CB',x:50,y:76},{pos:'CB',x:74,y:74},
+        {pos:'LM',x:16,y:47},{pos:'CM',x:38,y:49},{pos:'CM',x:62,y:49},{pos:'RM',x:84,y:47},
+        {pos:'LW',x:18,y:21},{pos:'ST',x:50,y:15},{pos:'RW',x:82,y:21}
+      ]
     },
     '4-5-1': {
-      name:'4–5–1 Defenzív Blokkolás (Védekező / X-re játszó)',
-      style:'Defenzív (−22% Kapott gól, +14% Döntetlen X)', atkMod:0.80, defMod:1.25, drawBoost:0.14,
-      desc:'Masszív 5 fős középpályás fal és 4 védő. Kevés gólt rúgsz, de alig kapsz gólt – erősebb ellenfél ellen is nagy esély az X-re!',
-      slots:['GK','RB','CB','CB','LB','RM','CDM','CDM','CM','LM','ST']
+      name:'4–5–1 Defenzív Blokkolás (X-re játszó)',
+      style:'Defenzív (−20% Kapott gól, +14% X)', atkMod:0.82, defMod:1.22, drawBoost:0.14,
+      desc:'Masszív 5 fős középpályás fal. Kevés gól, nagy esély az X-re!',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'LB',x:16,y:72},{pos:'CB',x:38,y:75},{pos:'CB',x:62,y:75},{pos:'RB',x:84,y:72},
+        {pos:'LM',x:14,y:46},{pos:'CDM',x:34,y:54},{pos:'CM',x:50,y:44},{pos:'CDM',x:66,y:54},{pos:'RM',x:86,y:46},
+        {pos:'ST',x:50,y:17}
+      ]
     },
     '5-3-2': {
       name:'5–3–2 Catenaccio / Buszparkolás (Ultra-Defenzív)',
-      style:'Ultra-Defenzív (−35% Kapott gól, +20% Döntetlen X)', atkMod:0.70, defMod:1.38, drawBoost:0.20,
-      desc:'Öt védő a kapu előtt! Minimálisra csökkenti az ellenfél gólesélyét, így még sztárcsapatok ellen is könnyen kihúzhatod 0–0 vagy 1–1 döntetlennel!',
-      slots:['GK','RB','CB','CB','CB','LB','CDM','CM','CM','ST','ST']
+      style:'Ultra-Defenzív (−32% Kapott gól, +18% X)', atkMod:0.72, defMod:1.35, drawBoost:0.18,
+      desc:'Öt védő a kapu előtt! Erősebb csapatok ellen is ideális 0–0 / 1–1 döntetlenre.',
+      slots:[
+        {pos:'GK',x:50,y:90},
+        {pos:'LB',x:14,y:68},{pos:'CB',x:32,y:75},{pos:'CB',x:50,y:77},{pos:'CB',x:68,y:75},{pos:'RB',x:86,y:68},
+        {pos:'CM',x:28,y:47},{pos:'CDM',x:50,y:53},{pos:'CM',x:72,y:47},
+        {pos:'ST',x:36,y:18},{pos:'ST',x:64,y:18}
+      ]
     }
   },
   other: {
-    'balanced': {
-      name:'Alap Kiegyensúlyozott Felállás',
-      style:'Kiegyensúlyozott', atkMod:1.00, defMod:1.00, drawBoost:0.00,
-      desc:'Standard kezdőcsapat-felállás.',
-      slots:[] // dinamikusan töltődik a sportág posztjaiból
-    },
-    'offensive': {
-      name:'Run & Gun / Támadó Felállás (+22% Pont/Gól)',
-      style:'Támadó', atkMod:1.22, defMod:0.86, drawBoost:-0.05,
-      desc:'Magas tempójú támadójáték, több szerzett pont, de sebezhetőbb védelem.',
-      slots:[]
-    },
-    'defensive': {
-      name:'Lockdown Védekező Felállás (−25% Kapott pont, +12% X)',
-      style:'Defenzív', atkMod:0.82, defMod:1.28, drawBoost:0.12,
-      desc:'Kemény védekezés, lassított tempó és szoros végeredmények.',
-      slots:[]
-    }
+    'balanced': {name:'Alap Kiegyensúlyozott Felállás',style:'Kiegyensúlyozott',atkMod:1.00,defMod:1.00,drawBoost:0.00,desc:'Standard kezdőcsapat.',slots:[]},
+    'offensive': {name:'Run & Gun / Támadó Felállás',style:'Támadó (+22%)',atkMod:1.22,defMod:0.86,drawBoost:-0.05,desc:'Magas tempójú támadójáték.',slots:[]},
+    'defensive': {name:'Lockdown Védekező Felállás',style:'Defenzív (+12% X)',atkMod:0.82,defMod:1.28,drawBoost:0.12,desc:'Kemény védekezés, szoros eredmények.',slots:[]}
   }
+};
+
+const MENTALITY_MODS = {
+  park:   {atk:0.72, def:1.30, draw:0.16, stamDrain:7},
+  def:    {atk:0.86, def:1.15, draw:0.08, stamDrain:9},
+  bal:    {atk:1.00, def:1.00, draw:0.00, stamDrain:11},
+  att:    {atk:1.18, def:0.90, draw:-0.08, stamDrain:14},
+  allout: {atk:1.32, def:0.78, draw:-0.14, stamDrain:18}
 };
 
 function getFormationsForSport(spKey){
   const cat = getSportCategory(spKey);
   if(cat==='football') return FORMATIONS.football;
   const posList = getPosListForSport(spKey);
-  // 8 fős kezdő más sportágakban, hogy minden poszt szerepeljen
-  const slots = Array.from({length:8}, (_,i)=>posList[i%posList.length].code);
+  const coords = [{x:50,y:86},{x:22,y:66},{x:78,y:66},{x:32,y:45},{x:68,y:45},{x:20,y:22},{x:50,y:16},{x:80,y:22}];
+  const slots = coords.map((pt,i)=>({pos:posList[i%posList.length].code, x:pt.x, y:pt.y}));
   const res = {};
-  for(const [k,v] of Object.entries(FORMATIONS.other)){
-    res[k] = {...v, slots};
-  }
+  for(const [k,v] of Object.entries(FORMATIONS.other)) res[k] = {...v, slots};
   return res;
 }
 
-// Reális fiatal névgenerátor (nemzetre/régióra szabott kereszt- és vezetéknevek, NEM világsztárok!)
 const YOUTH_NAME_POOLS = {
-  football_eng: {first:['Alfie','Archie','Finley','Harrison','Ollie','Harvey','Liam','Noah','Mason','Leo','Toby','Jude','Louie','Rory'], last:['Barker','fletcher','Gallagher','Hanson','Kerr','Lowe','Maddocks','Palmer','Sutton','Vaughan','Ward','Wood','Knight','Dawson']},
+  football_eng: {first:['Alfie','Archie','Finley','Harrison','Ollie','Harvey','Liam','Noah','Mason','Leo','Toby','Jude','Louie','Rory'], last:['Barker','Fletcher','Gallagher','Hanson','Kerr','Lowe','Maddocks','Palmer','Sutton','Vaughan','Ward','Wood','Knight','Dawson']},
   football_esp: {first:['Álex','Hugo','Mateo','Iker','Lucas','Martín','Leo','Daniel','Pablo','Álvaro','Adrián','Diego','Enzo','Gael'], last:['Molina','Garrido','Cortés','Castillo','Lozano','Cano','Prieto','Méndez','Serrano','Blanco','Navarro','Vega','Ortega']},
   football_fra: {first:['Lucas','Enzo','Mathis','Yanis','Hugo','Nathan','Théo','Noah','Rayan','Timéo','Jules','Sacha','Nolan','Kylian'], last:['Moreau','Simon','Michel','Lefebvre','Leroy','Roux','Fournier','Mercier','Blanc','Guerin','Boyer','Chevalier']},
-  football_ger: {first:['Lukas','Leon','Finn','Jonas','Felix','Noah','Elias','Luis','ben','Paul','Moritz','Julian','Tim','Niklas'], last:['Krämer','Vogel','Schubert','Winkler','Günther','Berger','Beck','Lorenz','Baumann','Albrecht','Böhm','Winter']},
+  football_ger: {first:['Lukas','Leon','Finn','Jonas','Felix','Noah','Elias','Luis','Ben','Paul','Moritz','Julian','Tim','Niklas'], last:['Krämer','Vogel','Schubert','Winkler','Günther','Berger','Beck','Lorenz','Baumann','Albrecht','Böhm','Winter']},
   football_ned: {first:['Daan','Sem','Lucas','Levi','Finn','Mees','Noud','Luuk','Bram','Jesse','Milan','Thijs','Sam','Ruben'], last:['de Vries','Bakker','Visser','Smit','Meijer','de Boer','Mulder','de Groot','Bos','Vos','Peters','Hendriks']},
-  football_hun: {first:['Bence','Máté','Dominik','Levente','Noel','Zalán','Milán','Dávid','Balázs','Ádám','botond','Kristóf','Márk',' Olivér'], last:['Tóth','Szabó','Horváth','Varga','Kiss','Molnár','Németh','Farkas','Balogh','Papp','Takács','Juhász','Lakatos','Mészáros']},
-  football_den: {first:['William','Oscar','Carl','Malthe','Valdemar','Emil','Oliver','Victor','Lucas','Magnus','Frederik','Elias'], last:['Møller','Jørgensen','henriksen','Lund','Bak','Krogh','Dalgaard','skou','Bech','Holm','Lind','Winther']},
+  football_hun: {first:['Bence','Máté','Dominik','Levente','Noel','Zalán','Milán','Dávid','Balázs','Ádám','Botond','Kristóf','Márk','Olivér'], last:['Tóth','Szabó','Horváth','Varga','Kiss','Molnár','Németh','Farkas','Balogh','Papp','Takács','Juhász','Lakatos','Mészáros']},
+  football_den: {first:['William','Oscar','Carl','Malthe','Valdemar','Emil','Oliver','Victor','Lucas','Magnus','Frederik','Elias'], last:['Møller','Jørgensen','Henriksen','Lund','Bak','Krogh','Dalgaard','Skou','Bech','Holm','Lind','Winther']},
   football_nor: {first:['Jakob','Emil','Noah','Oliver','Filip','William','Lucas','Liam','Henrik','Aksel','Theodor','Kasper'], last:['Solberg','Lie','Moen','Dahl','Iversen','Strand','Bøe','Sandvik','Aasen','Haugen','Bakken','Lunde']},
-  football_swe: {first:['Lucas','Liam','William','Elias','Hugo','Oliver','Oscar','Adam','Matteo','Walter','Albin','Theo'], last:['Lindberg','Lindström','Lindqvist','Гustafsson','Bergström','Olsson','Magnusson','Söderberg','Nyberg','Blom']},
+  football_swe: {first:['Lucas','Liam','William','Elias','Hugo','Oliver','Oscar','Adam','Matteo','Walter','Albin','Theo'], last:['Lindberg','Lindström','Lindqvist','Gustafsson','Bergström','Olsson','Magnusson','Söderberg','Nyberg','Blom']},
   football_pol: {first:['Jakub','Szymon','Jan','Filip','Kacper','Aleksander','Franciszek','Mikołaj','Wojciech','Adam','Marcel','Wiktor'], last:['Kowalski','Wiśniewski','Wójcik','Kowalczyk','Kamiński','Lewandowski','Zieliński','Szymański','Woźniak','Dąbrowski']},
-  football_svk: {first:['Jakub','Samuel','Adam','Michal','Tomáš','Martin','Filip','Matej','Lukáš','Oliver','Šimon','Alex'], last:['Varga','Tóth','Horváth','Baláž','Molnár','Kováč','Lukáč','Novák','Szabó','Oravec','Шevčík','Kučera']},
+  football_svk: {first:['Jakub','Samuel','Adam','Michal','Tomáš','Martin','Filip','Matej','Lukáš','Oliver','Šimon','Alex'], last:['Varga','Tóth','Horváth','Baláž','Molnár','Kováč','Lukáč','Novák','Szabó','Oravec','Ševčík','Kučera']},
   football_afr: {first:['Amadou','Kofi','Thabo','Chinedu','Bongani','Ibrahim','Youssef','Tariq','Moussa','Sekou','Kwame','Sipho'], last:['Diallo','Traoré','Nkosi','Mensah','Okafor','Camara','Touré','Dlamini','Khumalo','Ndlovu','Coulibaly','Bamba']},
   football_usa: {first:['Caleb','Mason','Ethan','Logan','Aiden','Jackson','Caden','Owen','Gavin','Wyatt','Luke','Zane','Brody','Cole'], last:['Miller','Davis','Wilson','Moore','Taylor','Anderson','Thomas','Jackson','White','Harris','Martin','Thompson']},
   football_bra: {first:['Kauã','Breno','Vitor','Matheus','Guilherme','Pedro','Gustavo','Lucas','Rafael','Thiago','Caio','Enzo','Rayan','Igor'], last:['Silva','Santos','Oliveira','Souza','Rodrigues','Ferreira','Alves','Pereira','Lima','Gomes','Costa','Ribeiro']},
@@ -5378,58 +5524,79 @@ function generateRealisticName(spKey){
   const pool = YOUTH_NAME_POOLS[spKey] || YOUTH_NAME_POOLS.football_usa;
   const fn = pool.first[rnd(pool.first.length)];
   const ln = pool.last[rnd(pool.last.length)];
-  const fCap = fn.charAt(0).toUpperCase()+fn.slice(1);
-  const lCap = ln.charAt(0).toUpperCase()+ln.slice(1);
-  return `${fCap} ${lCap}`;
+  return `${fn.charAt(0).toUpperCase()+fn.slice(1)} ${ln.charAt(0).toUpperCase()+ln.slice(1)}`;
 }
 
-// Játékos részletes értékek (ATT, MID, DEF/GK) számítása OVR és Poszt alapján
-function computePlayerAttrs(ovr, posCode, spKey){
-  const meta = getPosMeta(spKey, posCode);
-  const grp = meta.grp;
-  let att=ovr, mid=ovr, def=ovr;
+// 6 részletes statisztika (4.B): PAC (Sebesség), SHO (Lövés), PAS (Passz), DRI (Cselezés), DEF (Védekezés), PHY (Fizikum)
+function compute6Stats(ovr, posCode, spKey){
+  const grp = getPosMeta(spKey, posCode).grp;
+  const clamp = v => Math.max(30, Math.min(99, Math.round(v)));
+  let pac=ovr, sho=ovr, pas=ovr, dri=ovr, def=ovr, phy=ovr;
   if(grp==='GK'){
-    def = Math.min(99, ovr + 3 + rnd(4));
-    mid = Math.max(35, ovr - 12 + rnd(6));
-    att = Math.max(25, ovr - 24 + rnd(6));
+    pac = clamp(ovr - 14 + rnd(8));
+    sho = clamp(ovr - 26 + rnd(8));
+    pas = clamp(ovr - 6 + rnd(8));
+    dri = clamp(ovr - 18 + rnd(8));
+    def = clamp(ovr + 4 + rnd(5));
+    phy = clamp(ovr + 2 + rnd(5));
   }else if(grp==='DEF'){
-    def = Math.min(99, ovr + 2 + rnd(4));
-    mid = Math.max(40, ovr - 4 + rnd(6));
-    att = Math.max(35, ovr - 12 + rnd(7));
+    pac = clamp(ovr - 2 + rnd(8));
+    sho = clamp(ovr - 14 + rnd(8));
+    pas = clamp(ovr - 4 + rnd(7));
+    dri = clamp(ovr - 7 + rnd(7));
+    def = clamp(ovr + 3 + rnd(5));
+    phy = clamp(ovr + 3 + rnd(5));
   }else if(grp==='MID'){
-    mid = Math.min(99, ovr + 2 + rnd(4));
-    att = Math.max(45, ovr - 3 + rnd(6));
-    def = Math.max(45, ovr - 4 + rnd(6));
+    pac = clamp(ovr - 1 + rnd(7));
+    sho = clamp(ovr - 3 + rnd(7));
+    pas = clamp(ovr + 3 + rnd(5));
+    dri = clamp(ovr + 2 + rnd(6));
+    def = clamp(ovr - 3 + rnd(7));
+    phy = clamp(ovr - 2 + rnd(7));
   }else{ // FWD
-    att = Math.min(99, ovr + 3 + rnd(4));
-    mid = Math.max(45, ovr - 4 + rnd(6));
-    def = Math.max(30, ovr - 16 + rnd(7));
+    pac = clamp(ovr + 3 + rnd(6));
+    sho = clamp(ovr + 4 + rnd(5));
+    pas = clamp(ovr - 3 + rnd(7));
+    dri = clamp(ovr + 3 + rnd(5));
+    def = clamp(ovr - 20 + rnd(8));
+    phy = clamp(ovr - 1 + rnd(7));
   }
-  return {att, mid, def};
+  return {pac, sho, pas, dri, def, phy};
+}
+
+// Meccsenkénti fizetés (Bérköltség - 5.B): magasabb OVR-nél exponenciálisan nő
+function calcPlayerWage(ovr, isLegend=false){
+  const w = Math.round(Math.pow(Math.max(1, ovr - 52), 1.65) * 4.5) + 35;
+  return isLegend ? Math.round(w * 2.2) : w;
 }
 
 function createFullPlayer(spKey, posCode, baseOvr, forceYoung=false, customName=null){
-  const age = forceYoung ? (16 + rnd(5)) : (17 + rnd(15)); // sok 16-20 éves fiatal!
+  const age = forceYoung ? (16 + rnd(5)) : (17 + rnd(15));
   const potential = age<=21 ? Math.min(95, baseOvr + 6 + rnd(10)) : Math.min(94, baseOvr + rnd(4));
   const name = customName || generateRealisticName(spKey);
-  const attrs = computePlayerAttrs(baseOvr, posCode, spKey);
+  const meta = getPosMeta(spKey, posCode);
+  const secPool = (meta.sec || []).filter(x=>x!==posCode);
+  const secPos = secPool.length ? secPool[rnd(secPool.length)] : null;
+  const s6 = compute6Stats(baseOvr, posCode, spKey);
   return {
     id: 'PL-'+uid()+'-'+rnd(999),
     name,
     pos: posCode,
+    secPos,
     ovr: baseOvr,
     pot: potential,
     age,
-    att: attrs.att,
-    mid: attrs.mid,
-    def: attrs.def,
+    stats: s6,
+    wage: calcPlayerWage(baseOvr, false),
+    stamina: 100,
+    yellows: 0,
+    suspended: 0,
     sport: spKey,
     isLegend: false,
     injured: false
   };
 }
 
-// 24 fős teljes keret generálása minden posztra 2+ játékossal és sok fiatallal!
 function buildFull24Squad(spKey, tierReqOvr, existingPlayers=[]){
   const cat = getSportCategory(spKey);
   const posList = getPosListForSport(spKey);
@@ -5442,19 +5609,23 @@ function buildFull24Squad(spKey, tierReqOvr, existingPlayers=[]){
 
   for(let i=0; i<template.length; i++){
     const targetPos = template[i];
-    // Kifejezetten sok fiatal (a keret ~45%-a 16-20 éves tehetség legyen!)
     const isYoung = (i % 2 === 1) || (i >= 16);
     const targetOvr = Math.max(54, Math.min(90, tierReqOvr - 3 + (isYoung ? -2 + rnd(5) : -1 + rnd(5))));
     if(usedExisting.length > 0){
       const ex = usedExisting.shift();
-      const attrs = computePlayerAttrs(ex.ovr, targetPos, spKey);
+      const meta = getPosMeta(spKey, targetPos);
+      const secPool = (meta.sec || []).filter(x=>x!==targetPos);
+      const s6 = ex.stats || compute6Stats(ex.ovr, targetPos, spKey);
       roster.push({
         ...ex,
         id: ex.id || ('PL-'+uid()+'-'+i),
         pos: targetPos,
-        att: ex.att || attrs.att,
-        mid: ex.mid || attrs.mid,
-        def: ex.def || attrs.def,
+        secPos: ex.secPos !== undefined ? ex.secPos : (secPool.length ? secPool[0] : null),
+        stats: s6,
+        wage: ex.wage || calcPlayerWage(ex.ovr, ex.isLegend),
+        stamina: ex.stamina !== undefined ? ex.stamina : 100,
+        yellows: ex.yellows || 0,
+        suspended: ex.suspended || 0,
         pot: ex.pot || Math.min(94, ex.ovr + (ex.age<=22?8:3))
       });
     }else{
@@ -5464,7 +5635,81 @@ function buildFull24Squad(spKey, tierReqOvr, existingPlayers=[]){
   return roster;
 }
 
-// Automatikus legjobb kezdőcsapat kiválasztása az adott felálláshoz (Formation)
+// Kattintásos csere állapota (1.A): selectedSwap = {type:'pitch'|'bench', idx:number, pid:string}
+let selectedSwap = null;
+
+window.handlePitchNodeClick = function(slotIdx){
+  const c = state.club; if(!c) return;
+  const pid = c.lineup[slotIdx];
+  if(!selectedSwap){
+    selectedSwap = {type:'pitch', idx:slotIdx, pid};
+    renderManager();
+    return;
+  }
+  if(selectedSwap.type==='pitch' && selectedSwap.idx===slotIdx){
+    selectedSwap = null;
+    renderManager();
+    return;
+  }
+  if(selectedSwap.type==='pitch'){
+    // Két kezdőjátékos felcserélése a pályán
+    const tmp = c.lineup[slotIdx];
+    c.lineup[slotIdx] = c.lineup[selectedSwap.idx];
+    c.lineup[selectedSwap.idx] = tmp;
+    selectedSwap = null;
+    saveState(); renderManager();
+    toast('🔄 Két kezdőjátékos megcserélve a pályán!');
+  }else if(selectedSwap.type==='bench'){
+    // Cserejátékos behozatala a pályára
+    const benchP = c.roster.find(x=>x.id===selectedSwap.pid);
+    if(!benchP || benchP.injured || (benchP.suspended||0)>0){
+      selectedSwap = null; renderManager();
+      return toast('Sérült vagy eltiltott játékos nem állítható be!');
+    }
+    c.lineup[slotIdx] = benchP.id;
+    selectedSwap = null;
+    saveState(); renderManager();
+    toast(`🔄 Csere megtörtént: ${benchP.name} bekerült a kezdőbe!`);
+  }
+};
+
+window.handleBenchCardClick = function(pid){
+  const c = state.club; if(!c) return;
+  const p = c.roster.find(x=>x.id===pid);
+  if(!p || p.injured || (p.suspended||0)>0) return toast('Ez a játékos jelenleg sérült vagy eltiltott!');
+  if(!selectedSwap){
+    selectedSwap = {type:'bench', pid};
+    renderManager();
+    return;
+  }
+  if(selectedSwap.type==='bench' && selectedSwap.pid===pid){
+    selectedSwap = null;
+    renderManager();
+    return;
+  }
+  if(selectedSwap.type==='bench'){
+    selectedSwap = {type:'bench', pid};
+    renderManager();
+    return;
+  }
+  if(selectedSwap.type==='pitch'){
+    c.lineup[selectedSwap.idx] = pid;
+    selectedSwap = null;
+    saveState(); renderManager();
+    toast(`🔄 Csere megtörtént: ${p.name} bekerült a kezdőbe!`);
+  }
+};
+
+window.restSquadTraining = function(){
+  const c = state.club; if(!c) return;
+  if(state.balance < 400) return toast('A regeneráló pihenőnap 400 €-ba kerül!');
+  take(400);
+  c.roster.forEach(p => { p.stamina = Math.min(100, (p.stamina||100) + 28); });
+  saveState(); renderManager();
+  toast('💤 Regeneráló pihenőnap megtartva! Minden játékos erőnléte +28%-kal nőtt!');
+};
+
+// Automatikus legjobb, friss (nem eltiltott, nem sérült, min. 60% erőnlétű) kezdőcsapat!
 window.autoPickLineup = function(){
   const c = state.club; if(!c) return;
   const forms = getFormationsForSport(c.sport);
@@ -5473,33 +5718,36 @@ window.autoPickLineup = function(){
   const usedIds = new Set();
   const newLineup = [];
 
-  for(const slotPos of slots){
-    // 1. Keresünk pontosan erre a posztra egészséges játékost legmagasabb OVR-rel
-    let candidates = c.roster.filter(p => !usedIds.has(p.id) && !p.injured && p.pos === slotPos);
-    // 2. Ha nincs, keresünk azonos posztcsoportban (DEF/MID/FWD)
-    if(!candidates.length){
-      const grp = getPosMeta(c.sport, slotPos).grp;
-      candidates = c.roster.filter(p => !usedIds.has(p.id) && !p.injured && getPosMeta(c.sport, p.pos).grp === grp);
+  const avail = p => !usedIds.has(p.id) && !p.injured && (p.suspended||0)<=0;
+  const scoreForPos = (p, reqPos) => {
+    const stamFactor = 0.6 + ((p.stamina!==undefined?p.stamina:100)/100)*0.4;
+    const posBonus = p.pos===reqPos ? 6 : (p.secPos===reqPos ? 3 : 0);
+    return (p.ovr + posBonus) * stamFactor;
+  };
+
+  for(const slotObj of slots){
+    const reqPos = slotObj.pos;
+    let cands = c.roster.filter(p => avail(p) && (p.pos===reqPos || p.secPos===reqPos));
+    if(!cands.length){
+      const grp = getPosMeta(c.sport, reqPos).grp;
+      cands = c.roster.filter(p => avail(p) && getPosMeta(c.sport, p.pos).grp===grp);
     }
-    // 3. Ha még mindig nincs, bárki aki nem foglalt
-    if(!candidates.length){
-      candidates = c.roster.filter(p => !usedIds.has(p.id));
-    }
-    candidates.sort((a,b)=>b.ovr - a.ovr);
-    if(candidates[0]){
-      newLineup.push(candidates[0].id);
-      usedIds.add(candidates[0].id);
+    if(!cands.length) cands = c.roster.filter(avail);
+    if(!cands.length) cands = c.roster.filter(p => !usedIds.has(p.id));
+    cands.sort((a,b) => scoreForPos(b, reqPos) - scoreForPos(a, reqPos));
+    if(cands[0]){
+      newLineup.push(cands[0].id);
+      usedIds.add(cands[0].id);
     }
   }
   c.lineup = newLineup;
-  saveState();
-  renderManager();
+  selectedSwap = null;
+  saveState(); renderManager();
 };
 
-// Kezdőcsapat effektív OVR, Támadó (ATT), Középpályás (MID) és Védekező (DEF) erejének számítása!
 function calcLineupRatings(){
   const c = state.club;
-  if(!c || !c.roster || !c.roster.length) return {ovr:50, att:50, mid:50, def:50, outOfPosCount:0};
+  if(!c || !c.roster || !c.roster.length) return {ovr:50, att:50, mid:50, def:50, outOfPosCount:0, totalWage:0};
   const forms = getFormationsForSport(c.sport);
   if(!c.formation || !forms[c.formation]) c.formation = Object.keys(forms)[0];
   const slots = forms[c.formation].slots;
@@ -5509,47 +5757,49 @@ function calcLineupRatings(){
   const count = slots.length || 1;
 
   for(let i=0; i<slots.length; i++){
-    const reqPos = slots[i];
+    const reqPos = slots[i].pos;
     const reqGrp = getPosMeta(c.sport, reqPos).grp;
     let p = c.roster.find(x=>x.id === c.lineup[i]) || c.roster[i % c.roster.length];
     if(!p) continue;
     const pGrp = getPosMeta(c.sport, p.pos).grp;
-    // Poszt-egyezés büntetés/bónusz:
-    // Ha pontosan a posztján játszik: 100%, ha azonos csapatrészben (pl. RB -> CB): -3 OVR, ha teljesen idegen poszton (pl. ST -> CB): -10 OVR!
+
+    // Másodlagos poszt logika (2.B):
+    // Elsődleges poszt = 0 büntetés, Másodlagos poszt = 0 büntetés, Azonos csapatrész = -3 OVR, Idegen poszt = -10 OVR
     let penalty = 0;
-    if(p.pos !== reqPos){
+    if(p.pos !== reqPos && p.secPos !== reqPos){
       penalty = (pGrp === reqGrp) ? 3 : 10;
       outOfPosCount++;
     }
-    if(p.injured) penalty += 8;
+    if(p.injured || (p.suspended||0)>0) penalty += 12;
 
-    const effOvr = Math.max(35, p.ovr - penalty);
-    const effAtt = Math.max(30, (p.att||p.ovr) - penalty);
-    const effMid = Math.max(30, (p.mid||p.ovr) - penalty);
-    const effDef = Math.max(30, (p.def||p.ovr) - penalty);
+    // Fáradtság (Stamina) büntetés: ha 70% alá esik az erőnlét, fokozatosan romlik a teljesítmény
+    const stam = p.stamina !== undefined ? p.stamina : 100;
+    if(stam < 70) penalty += Math.round((70 - stam) * 0.18);
 
-    sumOvr += effOvr;
-    sumAtt += effAtt;
-    sumMid += effMid;
-    sumDef += effDef;
+    const s6 = p.stats || compute6Stats(p.ovr, p.pos, c.sport);
+    const effOvr = Math.max(32, p.ovr - penalty);
+    const effAtt = Math.max(28, Math.round((s6.sho*0.5 + s6.pac*0.3 + s6.dri*0.2) - penalty));
+    const effMid = Math.max(28, Math.round((s6.pas*0.5 + s6.dri*0.3 + s6.phy*0.2) - penalty));
+    const effDef = Math.max(28, Math.round((s6.def*0.6 + s6.phy*0.3 + s6.pac*0.1) - penalty));
+
+    sumOvr += effOvr; sumAtt += effAtt; sumMid += effMid; sumDef += effDef;
   }
 
   const tactBonus = (state.skills && state.skills.tactician ? state.skills.tactician * 1.5 : 0);
   const sabMinus = (state.sabotage && state.sabotage.ovrMinus) || 0;
+  const totalWage = c.roster.reduce((acc,p)=>acc + (p.wage || calcPlayerWage(p.ovr, p.isLegend)), 0);
 
   return {
     ovr: Math.round(sumOvr / count + tactBonus - sabMinus),
     att: Math.round(sumAtt / count + tactBonus),
     mid: Math.round(sumMid / count + tactBonus),
     def: Math.round(sumDef / count + tactBonus),
-    outOfPosCount
+    outOfPosCount,
+    totalWage
   };
 }
 
-// Felülírjuk a calcTeamOvr-t és a calcTeamChemistry-t, hogy a ténylegesen felállított Kezdőcsapatból számoljon!
-window.calcTeamOvr = function(){
-  return calcLineupRatings().ovr;
-};
+window.calcTeamOvr = function(){ return calcLineupRatings().ovr; };
 window.calcTeamChemistry = function(){
   const r = calcLineupRatings();
   if(r.outOfPosCount === 0) return {pct:110, bonus:3};
@@ -5558,22 +5808,7 @@ window.calcTeamChemistry = function(){
   return {pct:Math.max(65, 95 - r.outOfPosCount*8), bonus: -Math.min(10, r.outOfPosCount*2)};
 };
 
-window.changeLineupSlot = function(slotIdx, newPlayerId){
-  const c = state.club; if(!c) return;
-  const existingIdx = c.lineup.indexOf(newPlayerId);
-  if(existingIdx !== -1 && existingIdx !== slotIdx){
-    // Megcseréljük a két játékost a kezdőben!
-    const temp = c.lineup[slotIdx];
-    c.lineup[slotIdx] = newPlayerId;
-    c.lineup[existingIdx] = temp;
-  }else{
-    c.lineup[slotIdx] = newPlayerId;
-  }
-  saveState();
-  renderManager();
-};
-
-// Non-stop Klub Átigazolási Piac (Vétel) generálása és megjelenítése
+// Átigazolási piac szűrőkkel (Kor & Max ár - 5.C) és Fizetéssel (5.B)
 let scoutMarketList = [];
 window.refreshScoutMarket = function(chargeFee=false){
   const c = state.club; if(!c) return;
@@ -5586,22 +5821,21 @@ window.refreshScoutMarket = function(chargeFee=false){
   const posList = getPosListForSport(c.sport);
   scoutMarketList = [];
 
-  // Generálunk 12 igazolható játékost (minden posztra + extra 16-20 éves fiatal tehetségeket!)
-  for(let i=0; i<12; i++){
+  for(let i=0; i<16; i++){
     const posObj = posList[i % posList.length];
-    const isWonderkid = (i % 3 === 0); // minden 3. játékos 16-19 éves ígéret!
-    const baseOvr = Math.max(55, Math.min(92, tier.reqOvr - 2 + (isWonderkid ? -2 + rnd(6) : rnd(7))));
+    const isWonderkid = (i % 3 === 0);
+    const baseOvr = Math.max(55, Math.min(92, tier.reqOvr - 3 + (isWonderkid ? -2 + rnd(6) : rnd(8))));
     const pl = createFullPlayer(c.sport, posObj.code, baseOvr, isWonderkid);
     const price = Math.max(600, Math.round(calcPlayerValue(pl) * (isWonderkid ? 1.15 : 0.95)));
     scoutMarketList.push({...pl, price, isWonderkid});
   }
   renderScoutMarket();
-  if(chargeFee) toast('🔄 Átigazolási piac frissítve 12 új igazolható játékossal!');
+  if(chargeFee) toast('🔄 Átigazolási piac frissítve 16 új igazolható játékossal!');
 };
 
 window.buyFromScoutMarket = function(pid){
   const c = state.club; if(!c) return;
-  if(c.roster.length >= MAX_SQUAD_LIMIT) return toast(`A kereted megtelt (${c.roster.length}/${MAX_SQUAD_LIMIT} fő)! Előbb adj el valakit!`);
+  if(c.roster.length >= MAX_SQUAD_LIMIT) return toast(`A kereted megtelt (${c.roster.length}/${MAX_SQUAD_LIMIT} fő)!`);
   const idx = scoutMarketList.findIndex(x=>x.id===pid);
   if(idx === -1) return;
   const pl = scoutMarketList[idx];
@@ -5611,70 +5845,74 @@ window.buyFromScoutMarket = function(pid){
   delete bought.price; delete bought.isWonderkid;
   c.roster.push(bought);
   scoutMarketList.splice(idx, 1);
-  saveState();
-  renderManager();
-  toast(`✍️ Leigazoltad: ${bought.name} (${bought.pos} · ${bought.ovr} OVR)!`);
+  saveState(); renderManager();
+  toast(`✍️ Leigazoltad: ${bought.name} (${bought.pos}${bought.secPos?'/'+bought.secPos:''} · ${bought.ovr} OVR · Bér: ${fmt(bought.wage)} €/meccs)!`);
 };
 
 window.renderScoutMarket = function(){
   const c = state.club; if(!c) return;
-  const filterSel = $('#mgrMktPosFilter');
+  const posSel = $('#mgrMktPosFilter');
   const posList = getPosListForSport(c.sport);
-  if(filterSel && filterSel.options.length <= 1){
-    filterSel.innerHTML = `<option value="ALL">Összes poszt (${posList.length})</option>` +
+  if(posSel && posSel.options.length <= 1){
+    posSel.innerHTML = `<option value="ALL">Összes poszt</option>` +
       posList.map(p=>`<option value="${p.code}">${p.icon} ${p.name}</option>`).join('');
   }
   if(!scoutMarketList.length) refreshScoutMarket(false);
-  const fVal = filterSel ? filterSel.value : 'ALL';
-  const list = fVal==='ALL' ? scoutMarketList : scoutMarketList.filter(p=>p.pos===fVal);
-  const grid = $('#mgrScoutMarketGrid'); if(!grid) return;
 
+  const fPos = posSel ? posSel.value : 'ALL';
+  const fAge = $('#mgrMktAgeFilter') ? $('#mgrMktAgeFilter').value : 'ALL';
+  const fPrice = $('#mgrMktPriceFilter') ? $('#mgrMktPriceFilter').value : 'ALL';
+
+  let list = [...scoutMarketList];
+  if(fPos !== 'ALL') list = list.filter(p => p.pos===fPos || p.secPos===fPos);
+  if(fAge === 'U20') list = list.filter(p => p.age <= 20);
+  else if(fAge === 'U23') list = list.filter(p => p.age <= 23);
+  else if(fAge === 'VET') list = list.filter(p => p.age >= 24);
+  if(fPrice !== 'ALL') list = list.filter(p => p.price <= +fPrice);
+
+  const grid = $('#mgrScoutMarketGrid'); if(!grid) return;
   grid.innerHTML = list.length ? list.map(p=>{
     const meta = getPosMeta(c.sport, p.pos);
+    const s = p.stats || compute6Stats(p.ovr, p.pos, c.sport);
     return `<div class="mcard" style="${p.isWonderkid?'border-color:var(--green)':''}">
       <div class="league">
-        <span>${meta.icon} ${meta.name}</span>
-        <span>${p.isWonderkid?'🌱 Fiatal Tehetség':'Profi Játékos'}</span>
+        <span>${meta.icon} ${p.pos}${p.secPos?` <small style="color:var(--cyan)">(2.: ${p.secPos})</small>`:''}</span>
+        <span>${p.isWonderkid?'🌱 U20 Tehetség':'Profi'}</span>
       </div>
       <div class="teams" style="display:flex;justify-content:space-between;align-items:center">
         <span>${p.name}</span>
         <span class="badge b-gold">${p.ovr} OVR</span>
       </div>
       <div style="font-size:12px;color:var(--muted)">
-        Kor: <b>${p.age} év</b> · Potenciál: <b style="color:var(--green)">${p.pot} OVR</b>
+        Kor: <b>${p.age} év</b> · Pot: <b style="color:var(--green)">${p.pot}</b> · Bér: <b style="color:#fca5a5">${fmt(p.wage)} €/m</b>
       </div>
       <div class="attr-pills">
-        <span>⚡ TÁM: <b>${p.att}</b></span>
-        <span>🎯 KÖZ: <b>${p.mid}</b></span>
-        <span>🛡️ VÉD: <b>${p.def}</b></span>
+        <span>PAC <b>${s.pac}</b></span><span>SHO <b>${s.sho}</b></span><span>PAS <b>${s.pas}</b></span>
+        <span>DRI <b>${s.dri}</b></span><span>DEF <b>${s.def}</b></span><span>PHY <b>${s.phy}</b></span>
       </div>
       <button class="primary" onclick="buyFromScoutMarket('${p.id}')" ${state.balance<p.price?'disabled':''}>
         💳 Leigazolás (${fmt(p.price)} €)
       </button>
     </div>`;
-  }).join('') : '<div style="color:var(--muted);font-size:13px">Nincs ilyen posztú játékos a jelenlegi listában. Nyomj a Frissítésre!</div>';
+  }).join('') : '<div style="color:var(--muted);font-size:13px">Nincs a szűrési feltételeknek megfelelő játékos. Módosítsd a szűrőket vagy frissíts!</div>';
 };
 
-// Meglévő vagy új klub migrációja 24 fős keretre és részletes posztokra!
 function ensureFull24SquadAndLineup(){
   const c = state.club; if(!c) return;
   const sp = SPORTS_DATA[c.sport];
   const tier = sp.tiers[c.tierIdx];
   const validCodes = new Set(getPosListForSport(c.sport).map(x=>x.code));
 
-  // Ha még régi 4-12 fős a keret, vagy hiányoznak a részletes posztok/attribútumok, kiegészítjük 24 főre!
-  if(!c.roster || c.roster.length < 22 || c.roster.some(p=>!validCodes.has(p.pos) || !p.att)){
+  if(!c.roster || c.roster.length < 22 || c.roster.some(p=>!validCodes.has(p.pos) || !p.stats)){
     c.roster = buildFull24Squad(c.sport, tier.reqOvr, c.roster || []);
   }
   const forms = getFormationsForSport(c.sport);
   if(!c.formation || !forms[c.formation]) c.formation = Object.keys(forms)[0];
+  if(!c.mentality) c.mentality = 'bal';
   const slots = forms[c.formation].slots;
-  if(!c.lineup || c.lineup.length !== slots.length){
-    autoPickLineup();
-  }
+  if(!c.lineup || c.lineup.length !== slots.length) autoPickLineup();
 }
 
-// Felülírjuk az Új Klub indítását (#mgrStartBtn), hogy rögtön 24 fős, minden poszton duplázott kerettel induljon!
 $('#mgrStartBtn').onclick=()=>{
   if(state.balance<1500)return toast('Legalább 1.500 € tiszta egyenleg szükséges!');
   take(1500);
@@ -5688,28 +5926,23 @@ $('#mgrStartBtn').onclick=()=>{
   const seedPlayers = tm.players.map(p=>({...p,ovr:Math.min(92,p.ovr+ovrShift),id:'PL-'+uid(),sport:spKey,isLegend:false,injured:false}));
   const fullRoster = buildFull24Squad(spKey, tier.reqOvr, seedPlayers);
   const forms = getFormationsForSport(spKey);
-  const defForm = Object.keys(forms)[0];
 
   state.club={
     sport:spKey,tierIdx:tierIdx,teamName:tm.name,points:0,played:0,wins:0,losses:0,gd:0,
-    aiStandings:{},
-    formation:defForm,
-    tactic:'press',
-    lineup:[],
+    aiStandings:{},formation:Object.keys(forms)[0],mentality:'bal',tactic:'press',lineup:[],
     academyLvl:1+Math.floor(tierIdx/2),stadiumLvl:1+Math.floor(tierIdx/2),sponsorId:'sp_local',
     roster:fullRoster
   };
   scoutMarketList=[];
   autoPickLineup();
   saveState();renderManager();
-  toast(`🎉 Átvetted a(z) ${tm.name} irányítását 24 fős kerettel (${tier.name})!`);
+  toast(`🎉 Átvetted a(z) ${tm.name} irányítását 24 fős kerettel!`);
 };
 
-// Akadémiai tehetségkutatás (#mgrScoutBtn) -> valódi 16-19 éves fiatalok részletes posztokkal és attribútumokkal!
 $('#mgrScoutBtn').onclick=()=>{
   const c=state.club;if(!c)return;
-  if(c.roster.length>=MAX_SQUAD_LIMIT)return toast(`A keret megtelt (max. ${MAX_SQUAD_LIMIT} játékos)! Előbb adj el valakit!`);
-  if((c.scoutsThisSeason||0)>=3)return toast('Ebben a szezonban már kineveltél 3 fiatalt! Játssz le egy szezont a következőkhöz.');
+  if(c.roster.length>=MAX_SQUAD_LIMIT)return toast(`A keret megtelt (max. ${MAX_SQUAD_LIMIT} játékos)!`);
+  if((c.scoutsThisSeason||0)>=3)return toast('Ebben a szezonban már kineveltél 3 fiatalt!');
   const cost=Math.round((1200+Math.pow(c.academyLvl,2)*420)*(1-state.skills.merchant*0.08));
   if(state.balance<cost)return toast(`Tehetségkutatás ára: ${fmt(cost)} €!`);
   take(cost);
@@ -5721,10 +5954,9 @@ $('#mgrScoutBtn').onclick=()=>{
   newP.academyLock = 1;
   c.roster.push(newP);
   saveState();renderManager();
-  $('#mgrAcadLog').textContent=`🌱 Új akadémiai tehetség (${c.scoutsThisSeason}/3): ${newP.name} (${newP.age} év · ${chosenPos.name} · ${newP.ovr} OVR, Potenciál: ${newP.pot})`;
+  $('#mgrAcadLog').textContent=`🌱 Új tehetség (${c.scoutsThisSeason}/3): ${newP.name} (${newP.age} év · ${newP.pos}${newP.secPos?'/'+newP.secPos:''} · ${newP.ovr} OVR, Pot: ${newP.pot})`;
 };
 
-// Subtab váltás bővítése a 6 fülre (table, lineup, squad, signing, infra, skills)
 $('#mgrSubTabs').onclick=e=>{
   const b=e.target.closest('button');if(!b)return;
   document.querySelectorAll('#mgrSubTabs button').forEach(x=>x.classList.toggle('sel',x===b));
@@ -5738,7 +5970,6 @@ $('#mgrSubTabs').onclick=e=>{
   if(sub==='signing')renderScoutMarket();
 };
 
-// RenderManager kibővítése a Felállás szerkesztővel, 24-es Kerettel és attribútumokkal
 const _prevRenderMgr = window.renderManager;
 window.renderManager = function(){
   if(state.club) ensureFull24SquadAndLineup();
@@ -5753,62 +5984,91 @@ window.renderManager = function(){
   $('#mgrScoutBtn').disabled = scoutsLeft<=0 || c.roster.length>=MAX_SQUAD_LIMIT;
   $('#mgrScoutBtn').textContent = scoutsLeft<=0 ? '⏳ Szezonális limit elérve (0/3)' : `🔍 Fiatal Tehetség Kinevelése (${fmt(scoutCost)} € · ${scoutsLeft}/3 hátra)`;
 
-  // 1. Felállás (Formation) és Kezdőcsapat (Lineup) kirajzolása
   const forms = getFormationsForSport(c.sport);
   const fSel = $('#mgrFormSel');
   if(fSel){
     fSel.innerHTML = Object.entries(forms).map(([k,v])=>`<option value="${k}" ${c.formation===k?'selected':''}>${v.name}</option>`).join('');
-    fSel.onchange = ()=>{
-      c.formation = fSel.value;
-      autoPickLineup();
-      toast(`📐 Felállás átállítva: ${forms[c.formation].name}`);
-    };
+    fSel.onchange = ()=>{ c.formation = fSel.value; autoPickLineup(); toast(`📐 Felállás: ${forms[c.formation].name}`); };
   }
+  const mSel = $('#mgrMentalitySel');
+  if(mSel){
+    mSel.value = c.mentality || 'bal';
+    mSel.onchange = ()=>{ c.mentality = mSel.value; saveState(); renderManager(); };
+  }
+
   const curForm = forms[c.formation] || Object.values(forms)[0];
   const rtg = calcLineupRatings();
   const effNote = $('#mgrFormEffectNote');
   if(effNote){
-    effNote.innerHTML = `<b>${curForm.name}</b> — Stílus: <span class="badge b-gold">${curForm.style}</span><br>${curForm.desc}`;
+    effNote.innerHTML = `<b>${curForm.name}</b> (<span class="badge b-gold">${curForm.style}</span>) · Keret bérköltség: <b style="color:#fca5a5">${fmt(rtg.totalWage)} € / meccs</b><br>${curForm.desc}`;
   }
   const sumEl = $('#mgrLineupStatsSummary');
   if(sumEl){
-    sumEl.innerHTML = `Kezdő OVR: <b>${rtg.ovr}</b> · ⚡ TÁM: <b>${rtg.att}</b> · 🎯 KÖZ: <b>${rtg.mid}</b> · 🛡️ VÉD: <b>${rtg.def}</b> ${rtg.outOfPosCount>0?`<span style="color:#f87171">(${rtg.outOfPosCount} idegen poszton!)</span>`:'<span style="color:#4ade80">(Mindenki a posztján!)</span>'}`;
+    sumEl.innerHTML = `Kezdő OVR: <b>${rtg.ovr}</b> · ⚡ TÁM: <b>${rtg.att}</b> · 🎯 KÖZ: <b>${rtg.mid}</b> · 🛡️ VÉD: <b>${rtg.def}</b> ${rtg.outOfPosCount>0?`<span style="color:#f87171">(${rtg.outOfPosCount} idegen poszton!)</span>`:'<span style="color:#4ade80">(Mindenki posztján!)</span>'}`;
   }
 
+  const hintEl = $('#mgrSwapStatusHint');
+  if(hintEl){
+    if(!selectedSwap) hintEl.textContent = '👆 Kattints egy játékosra a pályán vagy a cserepadon a cseréhez!';
+    else{
+      const spObj = c.roster.find(x=>x.id===selectedSwap.pid);
+      hintEl.innerHTML = `✨ Kiválasztva: <b style="color:var(--cyan)">${spObj?spObj.name:''}</b> → Kattints arra, akivel cserélni szeretnéd!`;
+    }
+  }
+
+  // 1. Koordinátás Taktikai Pálya kirajzolása (1.A)
   const lGrid = $('#mgrLineupGrid');
   if(lGrid){
-    lGrid.innerHTML = curForm.slots.map((slotPos, idx)=>{
-      const meta = getPosMeta(c.sport, slotPos);
+    lGrid.innerHTML = curForm.slots.map((slotObj, idx)=>{
+      const reqPos = slotObj.pos;
+      const reqGrp = getPosMeta(c.sport, reqPos).grp;
       const curPid = c.lineup[idx];
-      const curP = c.roster.find(x=>x.id===curPid) || c.roster[0];
-      const isExact = curP && curP.pos === slotPos;
-      const isSameGrp = curP && getPosMeta(c.sport, curP.pos).grp === meta.grp;
+      const p = c.roster.find(x=>x.id===curPid) || c.roster[0];
+      const isExact = p && p.pos === reqPos;
+      const isSec = p && !isExact && p.secPos === reqPos;
+      const isSameGrp = p && !isExact && !isSec && getPosMeta(c.sport, p.pos).grp === reqGrp;
+      const clsExtra = isExact ? '' : isSec ? 'sec-pos' : isSameGrp ? 'sec-pos' : 'out-pos';
+      const isSel = selectedSwap && selectedSwap.type==='pitch' && selectedSwap.idx===idx;
+      const stam = p && p.stamina!==undefined ? p.stamina : 100;
+      const stamCol = stam>=75 ? '#2ecc71' : stam>=50 ? '#fbbf24' : '#ef4444';
 
-      // Dropdown opciók: elöl a pontos posztúak, aztán a többiek
-      const sortedRoster = [...c.roster].sort((a,b)=>{
-        const aEx = a.pos===slotPos?2:(getPosMeta(c.sport,a.pos).grp===meta.grp?1:0);
-        const bEx = b.pos===slotPos?2:(getPosMeta(c.sport,b.pos).grp===meta.grp?1:0);
-        return (bEx - aEx) || (b.ovr - a.ovr);
-      });
-
-      const opts = sortedRoster.map(p=>{
-        const inLineup = c.lineup.includes(p.id) && p.id!==curPid;
-        const pMatch = p.pos===slotPos ? '✅' : (getPosMeta(c.sport,p.pos).grp===meta.grp ? '⚠️' : '❌');
-        return `<option value="${p.id}" ${p.id===curPid?'selected':''}>${pMatch} [${p.pos}] ${p.name} (${p.ovr} OVR${p.injured?' 🏥':''}${inLineup?' · Kezdő':''})</option>`;
-      }).join('');
-
-      return `<div class="lineup-slot ${!isSameGrp?'out-of-pos':''}">
-        <div class="slot-head">
-          <span>${idx+1}. ${meta.icon} ${meta.name}</span>
-          <span class="badge ${isExact?'b-green':isSameGrp?'b-gold':'b-red'}">${curP?curP.ovr:'-'} OVR</span>
+      return `<div class="pitch-node ${clsExtra} ${isSel?'selected':''}" style="left:${slotObj.x}%;top:${slotObj.y}%" onclick="handlePitchNodeClick(${idx})" title="${p?`${p.name} (${p.pos}${p.secPos?'/'+p.secPos:''}) · Erőnlét: ${stam}%`:''}">
+        <div class="pn-top">
+          <span>${reqPos}${p&&p.pos!==reqPos?` (${p.pos})`:''}</span>
+          <span style="color:#fff;background:#0008;padding:0 4px;border-radius:4px">${p?p.ovr:'-'}</span>
         </div>
-        <select onchange="changeLineupSlot(${idx}, this.value)">${opts}</select>
-        ${curP?`<div class="attr-pills"><span>Kor: ${curP.age}</span><span>⚡${curP.att||curP.ovr}</span><span>🎯${curP.mid||curP.ovr}</span><span>🛡️${curP.def||curP.ovr}</span></div>`:''}
+        <div class="pn-name">${p?p.name.split(' ').pop():'—'}</div>
+        <div style="font-size:9.5px;color:var(--muted)">${p&&p.injured?'🏥':''}${p&&(p.suspended||0)>0?'🟥':''}${p&&(p.yellows||0)>0?'🟨':''} ${stam}%</div>
+        <div class="pn-stam"><i style="width:${stam}%;background:${stamCol}"></i></div>
       </div>`;
     }).join('');
   }
 
-  // 2. Teljes 24 fős keret lista (Poszt szerint rendezve, Kezdő/Csere jelzéssel és attribútumokkal)
+  // 2. Cserepad & Tartalékok lista a pálya mellett (1.A)
+  const benchEl = $('#mgrBenchList');
+  if(benchEl){
+    const starterSet = new Set(c.lineup);
+    const posOrder = getPosListForSport(c.sport).map(x=>x.code);
+    const benchPlayers = c.roster.filter(p=>!starterSet.has(p.id)).sort((a,b)=>(posOrder.indexOf(a.pos)-posOrder.indexOf(b.pos))||(b.ovr-a.ovr));
+    benchEl.innerHTML = benchPlayers.map(p=>{
+      const unavail = p.injured || (p.suspended||0)>0;
+      const isSel = selectedSwap && selectedSwap.type==='bench' && selectedSwap.pid===p.id;
+      const stam = p.stamina!==undefined ? p.stamina : 100;
+      return `<div class="bench-card ${unavail?'unavail':''} ${isSel?'selected':''}" onclick="handleBenchCardClick('${p.id}')">
+        <div>
+          <span class="badge b-cyan">${p.pos}${p.secPos?'/'+p.secPos:''}</span>
+          <b>${p.name}</b> <span class="badge b-gold">${p.ovr}</span>
+          ${p.injured?'<span class="badge b-red">🏥 SÉRÜLT</span>':''}
+          ${(p.suspended||0)>0?`<span class="badge b-red">🟥 ELTILTOTT (${p.suspended} m.)</span>`:''}
+          ${(p.yellows||0)>0?`<span class="badge b-gold">🟨 ${p.yellows}</span>`:''}
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Kor: ${p.age} · Erőnlét: <b>${stam}%</b> · Bér: ${fmt(p.wage||calcPlayerWage(p.ovr))} €</div>
+        </div>
+        <span style="font-size:12px;color:var(--gold2)">⇄</span>
+      </div>`;
+    }).join('');
+  }
+
+  // 3. Teljes 24 fős keret lista (6 statisztikával, erőnléttel, fizetéssel)
   const posOrder = getPosListForSport(c.sport).map(x=>x.code);
   const displayRoster = [...c.roster].sort((a,b)=>(posOrder.indexOf(a.pos)-posOrder.indexOf(b.pos)) || (b.ovr-a.ovr));
 
@@ -5817,16 +6077,20 @@ window.renderManager = function(){
     const locked = p.academyLock && p.academyLock>0;
     const meta = getPosMeta(c.sport, p.pos);
     const isStarter = c.lineup && c.lineup.includes(p.id);
+    const s = p.stats || compute6Stats(p.ovr, p.pos, c.sport);
+    const stam = p.stamina!==undefined ? p.stamina : 100;
     return `<div class="player-card ${p.isLegend?'legend':''} ${p.injured?'injured':''}" style="${isStarter?'border-left:4px solid var(--green)':''}">
       <div>
         <span class="badge ${isStarter?'b-green':'b-purple'}">${isStarter?'KEZDŐ':'CSERE'}</span>
-        <span class="badge b-cyan">${meta.icon} ${p.pos}</span>
+        <span class="badge b-cyan">${meta.icon} ${p.pos}${p.secPos?'/'+p.secPos:''}</span>
         <b>${p.isLegend?'⚡ ':''}${p.name}</b>
         <span class="badge b-gold">${p.ovr} OVR</span>
-        ${p.age<=21?`<span class="badge b-green" title="Fiatal tehetség (Potenciál: ${p.pot||p.ovr+6})">🌱 U21</span>`:''}
+        ${p.age<=21?`<span class="badge b-green">🌱 U21 (Pot ${p.pot||p.ovr+6})</span>`:''}
         ${p.injured?'<span class="badge b-red">🏥 SÉRÜLT</span>':''}
-        <div style="font-size:12px;color:var(--muted);margin-top:3px">
-          Kor: <b>${p.age} év</b> · ⚡TÁM: <b>${p.att||p.ovr}</b> · 🎯KÖZ: <b>${p.mid||p.ovr}</b> · 🛡️VÉD: <b>${p.def||p.ovr}</b> · Érték: <b>${fmt(val)} €</b>
+        ${(p.suspended||0)>0?`<span class="badge b-red">🟥 ELTILTOTT</span>`:''}
+        <div style="font-size:11.5px;color:var(--muted);margin-top:3px">
+          Kor: <b>${p.age}</b> · Erőnlét: <b>${stam}%</b> · Bér: <b style="color:#fca5a5">${fmt(p.wage||calcPlayerWage(p.ovr))} €/m</b> · Érték: <b>${fmt(val)} €</b><br>
+          PAC <b>${s.pac}</b> · SHO <b>${s.sho}</b> · PAS <b>${s.pas}</b> · DRI <b>${s.dri}</b> · DEF <b>${s.def}</b> · PHY <b>${s.phy}</b>
         </div>
       </div>
       <div style="display:flex;gap:5px;flex-wrap:wrap">
@@ -5838,7 +6102,7 @@ window.renderManager = function(){
   }).join('');
 };
 
-// Meccsszimuláció frissítése: Felállás (atkMod, defMod, drawBoost) + Kezdőcsapat ATT/MID/DEF + Taktikai Mátrix együttes hatása!
+// Meccsszimuláció: Felállás + Csapatmentalitás + Bérköltség + Fáradtság + Sárga/Piros lapok!
 $('#mgrPlayMatchBtn').onclick=()=>{
   const c=state.club;if(!c)return;
   ensureFull24SquadAndLineup();
@@ -5853,6 +6117,7 @@ $('#mgrPlayMatchBtn').onclick=()=>{
 
   const forms = getFormationsForSport(c.sport);
   const curForm = forms[c.formation] || Object.values(forms)[0];
+  const ment = MENTALITY_MODS[c.mentality||'bal'] || MENTALITY_MODS.bal;
   const rtg = calcLineupRatings();
   const myOvr = rtg.ovr;
 
@@ -5875,19 +6140,48 @@ $('#mgrPlayMatchBtn').onclick=()=>{
 
   const sponsor=SPONSORS.find(s=>s.id===c.sponsorId)||SPONSORS[0];
   const sponsorIncome=sponsor.check()?sponsor.bonus:0;
-  const totalMatchIncome=ticketIncome+sponsorIncome;
-  pay(totalMatchIncome);
+  const wageBill = rtg.totalWage;
+  const netMatchCash = ticketIncome + sponsorIncome - wageBill;
+  if(netMatchCash >= 0) pay(netMatchCash);
+  else setBal(state.balance + netMatchCash, 'down');
 
-  // Sérülés a kezdőcsapatban (15% esély)
-  if(rnd(100)<15){
-    const starters = c.roster.filter(p=>c.lineup.includes(p.id) && !p.injured);
-    if(starters.length>1) starters[rnd(starters.length)].injured=true;
-  }
+  // Eltiltások csökkentése, fáradtság és lapok kezelése (4.C)
+  const starterSet = new Set(c.lineup);
+  let cardNote = '';
+  c.roster.forEach(p=>{
+    if((p.suspended||0)>0 && !starterSet.has(p.id)){
+      p.suspended--;
+    }
+    if(starterSet.has(p.id)){
+      p.stamina = Math.max(15, (p.stamina!==undefined?p.stamina:100) - ment.stamDrain - rnd(5));
+      // Ha túl fáradt (<45%), nagyobb a sérülésveszély
+      if(p.stamina < 45 && rnd(100)<22 && !p.injured){
+        p.injured = true;
+        cardNote += ` [🏥 ${p.name} meghúzódott a fáradtságtól!]`;
+      }
+      // Sárga / Piros lap esély (14% sárga, 2% piros)
+      const cardRoll = rnd(100);
+      if(cardRoll < 2){
+        p.suspended = 1;
+        cardNote += ` [🟥 ${p.name} piros lapot kapott (1 meccs eltiltás)!]`;
+      }else if(cardRoll < 16){
+        p.yellows = (p.yellows||0) + 1;
+        if(p.yellows >= 3){
+          p.yellows = 0;
+          p.suspended = 1;
+          cardNote += ` [🟨🟨🟨 ${p.name} összegyűjtötte 3. sárgáját (1 meccs eltiltás)!]`;
+        }
+      }
+    }else{
+      // Kispadon pihenők regenerálódnak (+18% stamina)
+      p.stamina = Math.min(100, (p.stamina!==undefined?p.stamina:100) + 18);
+    }
+  });
 
   c.played++;
   const roundNum=c.played;
   let lastSummary='';
-  const tacInfo=`[${c.formation} · ${TACTIC_NAMES[myTac]} vs ${TACTIC_NAMES[oppTac]}]`;
+  const tacInfo=`[${c.formation} · Nettó bevétel: ${netMatchCash>=0?'+':''}${fmt(netMatchCash)} € (Bér: −${fmt(wageBill)} €)]`;
 
   if(mode==='fix_lose'){
     const dirtyGain=6500+c.tierIdx*2500;
@@ -5898,42 +6192,42 @@ $('#mgrPlayMatchBtn').onclick=()=>{
     c.losses++;c.gd=(c.gd||0)+(gf-ga);
     if(rnd(100)<Math.min(75,20+state.heat*0.5)){
       c.points=Math.max(0,c.points-6);
-      lastSummary=`🚨 ${roundNum}. forduló (${gf}–${ga}): BUNDA BOTRÁNY! −6 pt, +${fmt(dirtyGain)} € fekete pénz${sabNote}`;
+      lastSummary=`🚨 ${roundNum}. forduló (${gf}–${ga}): BUNDA BOTRÁNY! −6 pt, +${fmt(dirtyGain)} € fekete pénz${sabNote}${cardNote}`;
       msg('mgrMatchMsg',lastSummary,'lose');
     }else{
-      lastSummary=`🕶️ ${roundNum}. forduló (${gf}–${ga}): Bunda sikeres! +${fmt(dirtyGain)} € FEKETE PÉNZ${sabNote}`;
+      lastSummary=`🕶️ ${roundNum}. forduló (${gf}–${ga}): Bunda sikeres! +${fmt(dirtyGain)} € FEKETE PÉNZ${sabNote}${cardNote}`;
       msg('mgrMatchMsg',lastSummary,'info');
     }
   }else{
     const bopDiff=(6-sp.tiers.length)*1.8;
     const oppOvr=Math.round(tier.reqOvr-3+bopDiff+(Math.random()*6-3));
 
-    // A felállás (atkMod / defMod / drawBoost) és a kezdő ATT/DEF értékeinek hatása:
-    const attEdge = (rtg.att - oppOvr) * 0.02 * curForm.atkMod;
-    const defEdge = (rtg.def - oppOvr) * 0.02 * curForm.defMod;
-    const drawProb = Math.max(0.08, Math.min(0.48, 0.18 + curForm.drawBoost + (curForm.defMod>1.1 ? 0.06 : 0)));
+    const totAtkMod = curForm.atkMod * ment.atk;
+    const totDefMod = curForm.defMod * ment.def;
+    const attEdge = (rtg.att - oppOvr) * 0.02 * totAtkMod;
+    const defEdge = (rtg.def - oppOvr) * 0.02 * totDefMod;
+    const drawProb = Math.max(0.06, Math.min(0.50, 0.18 + curForm.drawBoost + ment.draw));
     let winProb = Math.max(0.10, Math.min(0.90 - drawProb, 0.44 + attEdge + defEdge + tacEdge));
     if(mode==='bribe') winProb = Math.min(0.92 - drawProb*0.5, winProb + 0.22);
 
-    // Gólok generálása a felállás defenzív/támadó jellege alapján (pl. 4-5-1 és 5-3-2 kevesebb gólt ad/kap!)
-    const maxGoalsScale = curForm.atkMod >= 1.2 ? 4 : (curForm.defMod >= 1.2 ? 2 : 3);
+    const maxGoalsScale = totAtkMod >= 1.25 ? 4 : (totDefMod >= 1.25 ? 2 : 3);
     const roll = Math.random();
     if(roll < winProb){
       const gf = 1 + rnd(maxGoalsScale);
-      const ga = curForm.defMod >= 1.2 && rnd(100)<70 ? 0 : Math.min(gf-1, rnd(gf));
+      const ga = totDefMod >= 1.25 && rnd(100)<72 ? 0 : Math.min(gf-1, rnd(gf));
       c.wins++; c.points+=3; c.gd=(c.gd||0)+(gf-ga);
-      lastSummary=`🏆 ${roundNum}. forduló (${gf}–${ga}) GYŐZELEM! ${tacInfo} · +${fmt(totalMatchIncome)} €${sabNote}`;
+      lastSummary=`🏆 ${roundNum}. forduló (${gf}–${ga}) GYŐZELEM! ${tacInfo}${sabNote}${cardNote}`;
       msg('mgrMatchMsg',lastSummary,'win');
     }else if(roll < winProb + drawProb){
-      const g = curForm.defMod >= 1.2 && rnd(100)<65 ? 0 : rnd(2);
+      const g = totDefMod >= 1.25 && rnd(100)<68 ? 0 : rnd(2);
       c.points+=1;
-      lastSummary=`🤝 ${roundNum}. forduló (${g}–${g}) DÖNTETLEN (X)! ${tacInfo} · +${fmt(totalMatchIncome)} €${sabNote}`;
+      lastSummary=`🤝 ${roundNum}. forduló (${g}–${g}) DÖNTETLEN (X)! ${tacInfo}${sabNote}${cardNote}`;
       msg('mgrMatchMsg',lastSummary,'info');
     }else{
-      const ga = 1 + rnd(curForm.defMod >= 1.2 ? 2 : 3);
+      const ga = 1 + rnd(totDefMod >= 1.25 ? 2 : 3);
       const gf = Math.min(ga-1, rnd(ga));
       c.losses++; c.gd=(c.gd||0)+(gf-ga);
-      lastSummary=`❌ ${roundNum}. forduló (${gf}–${ga}) VERESÉG! (Ellenfél OVR ${oppOvr}) ${tacInfo} · +${fmt(totalMatchIncome)} €${sabNote}`;
+      lastSummary=`❌ ${roundNum}. forduló (${gf}–${ga}) VERESÉG! (Ellenfél OVR ${oppOvr}) ${tacInfo}${sabNote}${cardNote}`;
       msg('mgrMatchMsg',lastSummary,'lose');
     }
 
@@ -5957,17 +6251,19 @@ $('#mgrPlayMatchBtn').onclick=()=>{
     if(c.points>=14)c.superCupReady=true;
     c.roster.forEach(p=>{
       p.age++;
+      p.stamina = 100;
+      p.yellows = 0;
+      p.suspended = 0;
       if(p.academyLock&&p.academyLock>0)p.academyLock--;
       if(!p.isLegend){
         if(p.age<=23){
-          const grow = 1 + rnd(3);
-          p.ovr = Math.min(p.pot||94, p.ovr + grow);
-          const na = computePlayerAttrs(p.ovr, p.pos, c.sport);
-          p.att=na.att; p.mid=na.mid; p.def=na.def;
+          p.ovr = Math.min(p.pot||94, p.ovr + 1 + rnd(3));
+          p.stats = compute6Stats(p.ovr, p.pos, c.sport);
+          p.wage = calcPlayerWage(p.ovr, false);
         }else if(p.age>=32){
           p.ovr = Math.max(55, p.ovr - 1 - rnd(2));
-          const na = computePlayerAttrs(p.ovr, p.pos, c.sport);
-          p.att=na.att; p.mid=na.mid; p.def=na.def;
+          p.stats = compute6Stats(p.ovr, p.pos, c.sport);
+          p.wage = calcPlayerWage(p.ovr, false);
         }
       }
     });
@@ -5981,7 +6277,7 @@ $('#mgrPlayMatchBtn').onclick=()=>{
         msg('mgrMatchMsg',`${lastSummary} · 👑 SZEZON VÉGE – BAJNOKI CÍM! +${fmt(tier.prize)} € és +2 SP!`,'win');
       }
     }else{
-      msg('mgrMatchMsg',`${lastSummary} · 📉 Szezon vége (${c.points}/${tier.reqPts} pt, Kezdő OVR ${myOvr}/${tier.reqOvr}). A fiatalok fejlődtek, új szezon indul!`,'lose');
+      msg('mgrMatchMsg',`${lastSummary} · 📉 Szezon vége (${c.points}/${tier.reqPts} pt, Kezdő OVR ${myOvr}/${tier.reqOvr}). Új szezon indul!`,'lose');
     }
     c.played=0;c.points=0;c.wins=0;c.losses=0;c.gd=0;c.aiStandings={};
     refreshScoutMarket(false);
